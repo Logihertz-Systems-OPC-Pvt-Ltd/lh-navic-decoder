@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build & Test (${{ matrix.compiler }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [ g++, clang++ ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install build toolchain
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq build-essential clang g++
+
+      - name: Compile binaries & test runner
+        run: |
+          make clean
+          make CXX=${{ matrix.compiler }} all
+
+      - name: Execute test runner
+        run: |
+          make CXX=${{ matrix.compiler }} test
+
+      - name: Run CLI smoke tests
+        run: |
+          ./bin/lh-navic --version
+          ./bin/lh-navic --help
+          ./bin/lh-navic scan fixtures/hardened_navic_policy.json --format table
+          ./bin/lh-navic scan fixtures/hardened_navic_policy.json --format json
+          ./bin/lh-navic scan fixtures/hardened_navic_policy.json --format sarif
+          ./bin/lh-navic gen-prn --prn 1
+          ./bin/lh-navic gen-prn --prn 14
+          ./bin/lh-navic calc-iono --rho-l5 22500018.40 --rho-s 22500004.10
+          # Vulnerable policy scan must exit with code 1
+          ./bin/lh-navic scan fixtures/vulnerable_navic_policy.json --format table || test $? -eq 1
+          # Spoofed ionospheric delay calculation must exit with code 1
+          ./bin/lh-navic calc-iono --rho-l5 22500085.00 --rho-s 22500005.00 || test $? -eq 1

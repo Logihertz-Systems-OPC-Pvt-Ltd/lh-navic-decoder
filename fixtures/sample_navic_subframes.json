@@ -1,0 +1,54 @@
+{
+  "description": "Authentic and corrupted 292-bit ISRO NavIC subframes with Qualcomm CRC-24Q validation",
+  "subframes": [
+    {
+      "id": 1,
+      "description": "Authentic Subframe 1 (Ephemeris/Clock, Alert=0, CRC-24Q Valid)",
+      "raw_hex": "EB905A0271024924924924924924924924924924924924924924924924924924904841A80",
+      "expected_valid": true,
+      "towc": 1250,
+      "subframe_id": 1
+    },
+    {
+      "id": 2,
+      "description": "Authentic Subframe 2 (Ephemeris, Alert=0, CRC-24Q Valid)",
+      "raw_hex": "EB905A02718A10842108421084210842108421084210842108421084210842108713522C0",
+      "expected_valid": true,
+      "towc": 1251,
+      "subframe_id": 2
+    },
+    {
+      "id": 3,
+      "description": "Tampered Subframe (Corrupted payload bit causing CRC-24Q mismatch)",
+      "raw_hex": "EB905A027102492492492492492492F924924924924924924924924924924924904841A80",
+      "expected_valid": false,
+      "towc": 1250,
+      "subframe_id": 1
+    },
+    {
+      "id": 4,
+      "description": "Satellite Alert Asserted (Alert=1, space vehicle unhealthy)",
+      "raw_hex": "EB905A0272524924924924924924924924924924924924924924924924924924901395480",
+      "expected_valid": false,
+      "towc": 1252,
+      "subframe_id": 3
+    }
+  ],
+  "dual_band_iono_telemetry": [
+    {
+      "case": "Authentic clean dual-band signals",
+      "rho_l5_m": 22500018.40,
+      "rho_s_m": 22500004.10,
+      "expected_delta_iono_m": 18.40,
+      "expected_rho_if_m": 22500000.00,
+      "is_spoofed": false
+    },
+    {
+      "case": "Single-band L5 spoofing anomaly (excessive ionospheric delay)",
+      "rho_l5_m": 22500085.00,
+      "rho_s_m": 22500005.00,
+      "expected_delta_iono_m": 102.93,
+      "is_spoofed": true
+    }
+  ]
+}

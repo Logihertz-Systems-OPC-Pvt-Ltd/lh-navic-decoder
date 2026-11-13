@@ -1,0 +1,19 @@
+{
+  "dual_band_l5_s_enabled": true,
+  "verify_crc24q_integrity": true,
+  "strict_sync_word_check": true,
+  "honor_satellite_alert_flag": true,
+  "max_allowed_ura_index": 5,
+  "epl_symmetry_sqm_enabled": true,
+  "max_epl_asymmetry_ratio": 0.15,
+  "navic_nma_verification": true,
+  "towc_monotonicity_check": true,
+  "wn_rollover_guard_enabled": true,
+  "verify_gso_geo_subsatellite_bounds": true,
+  "dll_bandwidth_hz": 1.0,
+  "pll_bandwidth_hz": 12.0,
+  "telemetry_bind_address": "127.0.0.1",
+  "require_client_auth": true,
+  "autonav_max_hours": 72,
+  "log_baseband_anomalies": true
+}
