@@ -1,0 +1,9 @@
+Package: lh-navic-decoder
+Version: 0.1.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Maintainer: Sameer Tawade <ops@logihertz.com>
+Homepage: https://www.logihertz.com
+Description: lh-navic - Dual-Band Ionospheric Delay Cancellation Function
+ Zero-dependency C++17 India NavIC (IRNSS) L5 (1176.45 MHz) & S-Band (2492.028 MHz) baseband receiver featuring 1023-chip Gold code PRN correlation, 292-bit subframe decoding, CRC-24Q, and dual-band iono math.
